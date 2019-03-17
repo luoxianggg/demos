@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径asdasda-->
+    <property name="LOG_HOME" value="./logs" />
+    <!--时间戳格式-->
+    <property name="LOG_CONTENT_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS}"/>
+    <!--日志备份文件名时间格式-->
+    <property name="LOG_NAME_PATTERN" value="%d{yyyyMMdd}"/>
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符 -->
+            <Pattern>${LOG_CONTENT_PATTERN} [%thread] %-5level %logger{36} - %msg %n</Pattern>
+        </encoder>
+    </appender>
+    <!-- 以天为单位,生成日志备份文件 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/aoneplus.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/aoneplus.${LOG_NAME_PATTERN}.log</FileNamePattern>
+            <!--日志文件保留天数-->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符 -->
+            <Pattern>${LOG_CONTENT_PATTERN} [%thread] %-5level %logger{36} - %msg %n</Pattern>
+        </encoder>
+        <!--日志文件最大的大小-->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+    <!--指定包输出级别-->
+    <logger name="org.springframework.scheduling" level="info"/>
+    <!-- 日志输出级别 -->
+    <!-- <root level="DEBUG">-->
+        <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <!--  <appender-ref ref="FILE" />-->
+    </root>
+
+</configuration>
