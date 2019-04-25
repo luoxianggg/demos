@@ -1,5 +1,7 @@
 package com.lx.project.demo3.model;
 
+import org.springframework.validation.BindingResult;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,12 @@ public class Response {
 
     private static final String OK = "ok";
     private static final String ERROR = "error";
+
+    public static final int VALIDATE_FAILED = 404;
+
+    public static final int UNAUTHORIZED = 401;
+    //未授权
+    public static final int  FORBIDDEN = 403;
 
     private Object data;
     private int count;
@@ -80,7 +88,49 @@ public class Response {
         return this;
     }
 
+    /**
+     * 参数验证失败使用
+     *
+     * @param message 错误信息
+     */
+    public Response validateFailed(String message) {
+        this.code = VALIDATE_FAILED;
+        this.msg = message;
+        return this;
+    }
 
+    /**
+     * 未登录时使用
+     *
+     * @param message 错误信息
+     */
+    public Response unauthorized(String message) {
+        this.code = UNAUTHORIZED;
+        this.msg = "暂未登录或token已经过期";
+        this.data = message;
+        return this;
+    }
+
+    /**
+     * 未授权时使用
+     *
+     * @param message 错误信息
+     */
+    public Response forbidden(String message) {
+        this.code = FORBIDDEN;
+        this.msg = "没有相关权限";
+        this.data = message;
+        return this;
+    }
+
+    /**
+     * 参数验证失败使用
+     * @param result 错误信息
+     */
+    public Response validateFailed(BindingResult result) {
+        validateFailed(result.getFieldError().getDefaultMessage());
+        return this;
+    }
     public Object getData() {
         return data;
     }

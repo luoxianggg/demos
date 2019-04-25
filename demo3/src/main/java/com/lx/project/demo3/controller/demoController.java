@@ -4,11 +4,14 @@ import com.lx.project.demo3.model.Response;
 import com.lx.project.demo3.model.order.Order;
 import com.lx.project.demo3.service.OrderService;
 import com.lx.project.demo3.service.SchehulerService;
+import com.lx.project.demo3.util.OSSClientDisPartUploadUtil;
+import com.lx.project.demo3.util.OSSClientUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,7 +83,29 @@ public class demoController {
         return response.success(map1);
     }
 
+    @RequestMapping("/fileUpload")
+    public Response fileUpload(@RequestBody Map<String,Object> requestMap){
+        Response response = new Response();
+        String fileName = requestMap.get("fileName").toString();
+        try {
+            if(null != fileName || fileName != ""){
+                if(!"".equals(fileName.trim())){
+
+                    //上传到OSS
+                    String url = OSSClientDisPartUploadUtil.uploadFile(fileName);
+                }
+            }
+            return  response.success("上传成功！");
+        }catch (Exception e){
+            return response.failure("调用失败");
+        }
 
 
-    
+    }
+    @RequestMapping("/OSSTest")
+  public Response uploadTest(@RequestBody Map<String,Object> map){
+        Response response = new Response();
+        OSSClientUtils.uploadHelloWorld();
+        return response;
+    }
 }
