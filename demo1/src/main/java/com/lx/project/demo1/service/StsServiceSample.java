@@ -16,8 +16,8 @@ import java.util.Map;
 @Service
 public class StsServiceSample {
     String endpoint = "sts.cn-shanghai.aliyuncs.com";
-    String accessKeyId = "LTAIDnfiOc3RQq9Y";
-    String accessKeySecret = "cMiR0achBbAQ4377pAluyAzkASjA7e";
+    String accessKeyId = "*********";
+    String accessKeySecret = "***********";
     String roleArn = "acs:ram::1010552741727341:role/aliyunosstokengeneratorrole";
     String roleSessionName = "session-name";
     String policy = "{\n" +
